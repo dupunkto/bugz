@@ -156,7 +156,9 @@ header .description {
 
 
 .epic nav .user,
-header nav .user {
+.epic nav .login,
+header nav .user,
+header nav .login {
   margin-left: auto;
   align-self: flex-end;
   padding: 0 1rem;

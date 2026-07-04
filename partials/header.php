@@ -17,7 +17,7 @@
       <?php if(\auth\is_authenticated()): ?>
         <span class="user"><?= esc_inner(\auth\current_user()) ?></span>
       <?php else: ?>
-        <a class="item-login" href="/login">login &rarr;</a>
+        <a class="login" href="/login">login &rarr;</a>
       <?php endif ?>
     </nav>
   </div>
