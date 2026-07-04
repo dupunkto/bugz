@@ -12,6 +12,7 @@ switch (true) {
     break;
 
   case route("^/login$"):
+    if(\auth\is_authenticated()) { header("Location: /"); exit; }
     isset($_GET['code']) ? \auth\handle_callback() : \auth\initiate_session();
     exit;
 
