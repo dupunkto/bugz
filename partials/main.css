@@ -532,6 +532,12 @@ h2 .number {
   font-size: 0.75em;
 }
 
+.comment .author {
+  font-weight: bold;
+  font-family: var(--font-sans);
+  font-size: 0.95em;
+}
+
 /* Form */
 
 form {

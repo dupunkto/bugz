@@ -25,7 +25,7 @@
 
   <article class="comment">
     <header>
-      <strong><?= esc_inner(@$issue['author']) ?></strong>
+      <span class="author"><?= esc_inner(@$issue['author']) ?></span>
       <time><?= esc_inner(@$issue['created_at']) ?></time>
     </header>
     <?php if($issue['body']): ?>
@@ -42,7 +42,7 @@
         <a href="/<?= esc_attr($event['source_namespace']) ?>/<?= esc_attr($event['source_project']) ?>/<?= $event['source_number'] ?>">
           <?= esc_inner($event['source_namespace']) ?>/<?= esc_inner($event['source_project']) ?>#<?= $event['source_number'] ?>
         </a>
-        by <?= esc_inner($event['author']) ?>
+        by <span class="author"><?= esc_inner($event['author']) ?></span>
         <time><?= esc_inner($event['linked_at']) ?></time>
       </div>
     <?php elseif($event['_type'] === 'commit'): ?>
@@ -51,13 +51,13 @@
         <a href="<?= esc_attr(\core\gitzCommitURL($event['namespace'], $event['repo_name'], $event['rev'])) ?>">
           <?= esc_inner($event['namespace']) ?>/<?= esc_inner($event['repo_name']) ?>@<?= esc_inner(substr($event['rev'], 0, 7)) ?>
         </a>
-        by <?= esc_inner($event['author']) ?>
+        by <span class="author"><?= esc_inner($event['author']) ?></span>
         <time><?= esc_inner($event['linked_at']) ?></time>
       </div>
     <?php elseif($event['body'] && $event['status']): ?>
       <div class="log-event">
         <span class="dot dot-<?= esc_attr($event['status']) ?>" title="<?= esc_attr($event['status']) ?>"></span>
-        <?= esc_inner($event['author']) ?> changed status to <?= esc_inner($event['status']) ?>, with comment:
+        <span class="author"><?= esc_inner($event['author']) ?></span> changed status to <?= esc_inner($event['status']) ?>, with comment:
         <time><?= esc_inner($event['posted_at']) ?></time>
       </div>
       <article class="comment">
@@ -66,7 +66,7 @@
     <?php elseif($event['body']): ?>
       <article class="comment">
         <header>
-          <strong><?= esc_inner($event['author']) ?></strong>
+          <span class="author"><?= esc_inner($event['author']) ?></span>
           <time><?= esc_inner($event['posted_at']) ?></time>
         </header>
         <?= \core\renderBody($event['body']) ?>
@@ -74,7 +74,7 @@
     <?php elseif($event['status']): ?>
       <div class="log-event">
         <span class="dot dot-<?= esc_attr($event['status']) ?>" title="<?= esc_attr($event['status']) ?>"></span>
-        <?= esc_inner($event['author']) ?> changed status to <?= esc_inner($event['status']) ?>
+        <span class="author"><?= esc_inner($event['author']) ?></span> changed status to <?= esc_inner($event['status']) ?>
         <time><?= esc_inner($event['posted_at']) ?></time>
       </div>
     <?php endif ?>
