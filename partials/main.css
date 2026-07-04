@@ -365,7 +365,7 @@ header nav .login {
 
 /* Issue detail */
 
-.issue-detail {
+.issue-detail, .issue-new {
   display: block;
 }
 

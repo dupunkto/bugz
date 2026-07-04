@@ -1,4 +1,4 @@
-<main class="container issue-detail">
+<main class="container issue-new">
   <h2>New <?= esc_inner($type) ?></h2>
   <form class="new-form" method="post" action="">
     <input type="hidden" name="type" value="<?= esc_attr($type) ?>" />
