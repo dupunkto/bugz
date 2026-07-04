@@ -46,6 +46,34 @@ switch (true) {
 
     exit;
 
+  case route("^/api/project$") && $_SERVER['REQUEST_METHOD'] == 'POST':
+    if (!SECRET || @$_SERVER['HTTP_AUTHORIZATION'] != 'Bearer ' . SECRET) {
+      http_response_code(401);
+      echo "Unauthorized.";
+      exit;
+    }
+
+    $namespace = trim(@$_POST['namespace']);
+    $project_name = trim(@$_POST['project_name']);
+    $description = trim(@$_POST['description']) ?: null;
+
+    if (!$namespace || !$project_name) {
+      http_response_code(400);
+      echo "Missing namespace or project_name.";
+      exit;
+    }
+
+    if (\core\getProject($namespace, $project_name)) {
+      http_response_code(409);
+      echo "Project already exists.";
+      exit;
+    }
+
+    \core\createProject($namespace, $project_name, $description);
+    http_response_code(201);
+    echo BUGZ_URL . "/{$namespace}/{$project_name}\n";
+    exit;
+
   // Redirect bare namespace URLs to home
   case route("{$ns_pattern}/?$"):
     header("Location: /");

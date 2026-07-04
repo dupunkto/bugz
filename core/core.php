@@ -29,6 +29,14 @@ function getProject($namespace, $name) {
   return \store\one('SELECT * FROM projects WHERE namespace = ? AND project_name = ?', [$namespace, $name]);
 }
 
+function createProject($namespace, $project_name, $description = null) {
+  \store\exec_query(
+    'INSERT INTO projects (namespace, project_name, description) VALUES (?, ?, ?)',
+    [$namespace, $project_name, $description]
+  );
+  return getProject($namespace, $project_name);
+}
+
 // Repos
 
 function listLinkedRepos($project_id) {
