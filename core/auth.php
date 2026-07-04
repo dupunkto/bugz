@@ -29,7 +29,10 @@ function require_authenticated() {
 }
 
 function initiate_session() {
-  $redirect = @$_SERVER['REQUEST_URI'] ?: '/';
+  $redirect = $_GET['redirect'] ?: @$_SERVER['REQUEST_URI'] ?: '/';
+  
+  // Prevent infinite authentication loops.
+  if(str_starts_with($redirect, "/login")) $redirect = "/";
 
   $_SESSION['state'] = bin2hex(random_bytes(16));
   $_SESSION['code_verifier'] = rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
