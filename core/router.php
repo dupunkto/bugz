@@ -7,6 +7,8 @@
 //   $params (array) contains capture groups from the route regex.
 //
 
+$method = $_SERVER['REQUEST_METHOD'];
+
 $path = $_SERVER['REQUEST_URI'];
 $path = explode("?", $path)[0];
 $path = "/" . trim($path, "/");
@@ -21,7 +23,7 @@ function route($pattern) {
 function scope($pattern) {
   global $path, $params;
 
-  if (preg_match("@$pattern@", $path, $params)) {
+  if(preg_match("@$pattern@", $path, $params)) {
     $path = preg_replace("@$pattern@", "", $path);
     return true;
   }

@@ -1,1 +1,172 @@
-hewwo world:3
+<?php
+// Public rendering engine.
+
+require_once __DIR__ . "/core/core.php";
+
+$alnum_pattern = '([a-zA-Z0-9_\-\.]+)';
+$ns_pattern = "^/~?{$alnum_pattern}";
+
+switch (true) {
+  case $path == '/':
+    $page = 'listing';
+    break;
+
+  case route("^/login$"):
+    isset($_GET['code']) ? \auth\handle_callback() : \auth\initiate_session();
+    exit;
+
+  case route("^/api/commit$") && $method == 'POST':
+    if(!SECRET || @$_SERVER['HTTP_AUTHORIZATION'] != 'Bearer ' . SECRET) {
+      http_response_code(401);
+      echo "Unauthorized.";
+      exit;
+    }
+
+    $repo = \core\getRepo(@$_POST['namespace'], @$_POST['repo']);
+
+    if(!$repo) {
+      http_response_code(404);
+      echo "There is no such repo.";
+      exit;
+    }
+
+    foreach(\core\parseRefs(@$_POST['message']) as $ref) {
+      $project = \core\getProject($ref['namespace'], $ref['project']);
+      if(!$project) continue;
+
+      $issue = \core\getIssue($project['id'], $ref['number']);
+      if(!$issue) continue;
+
+      \store\exec_query(
+        'INSERT INTO issue_commits (issue_id, author, rev, repo_id) VALUES (?, ?, ?, ?)',
+        [$issue['id'], @$_POST['author'], @$_POST['rev'], $repo['id']]
+      );
+    }
+
+    exit;
+
+  // Redirect bare namespace URLs to home
+  case route("{$ns_pattern}/?$"):
+    header("Location: /");
+    exit;
+
+  case scope("{$ns_pattern}/{$alnum_pattern}"):
+    $namespace = $params[1];
+    $project_name = $params[2];
+
+    if($project = \core\getProject($namespace, $project_name)) {
+      switch (true) {
+        case route("^/tasks/new$"):
+          \auth\require_authenticated();
+
+          if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $title = trim(@$_POST['title']);
+            $body = trim(@$_POST['body']);
+
+            if($title) {
+              $issue = \core\createIssue($project['id'], \auth\current_user(), 'task', $title, $body);
+              \core\createIssueRefs($issue['id'], \auth\current_user(), $body);
+              header("Location: /{$namespace}/{$project_name}/{$issue['number']}");
+              exit;
+            }
+          }
+
+          $type = 'task';
+          $page = 'new';
+          break;
+
+        case route("^/bugs/new$"):
+          \auth\require_authenticated();
+
+          if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $title = trim(@$_POST['title']);
+            $body = trim(@$_POST['body']);
+
+            if($title) {
+              $issue = \core\createIssue($project['id'], \auth\current_user(), 'bug', $title, $body);
+              \core\createIssueRefs($issue['id'], \auth\current_user(), $body);
+              header("Location: /{$namespace}/{$project_name}/{$issue['number']}");
+              exit;
+            }
+          }
+
+          $type = 'bug';
+          $page = 'new';
+          break;
+
+        case route("^/tasks/?$"):
+          $filter_status = in_array(@$_GET['is'], ['open', 'closed']) ? $_GET['is'] : 'open';
+          $filter_type = 'task';
+          $issues = \core\listIssues($project['id'], $filter_status, $filter_type);
+          $page = 'issues';
+          break;
+
+        case route("^/bugs/?$"):
+          $filter_status = in_array(@$_GET['is'], ['open', 'closed']) ? $_GET['is'] : 'open';
+          $filter_type = 'bug';
+          $issues = \core\listIssues($project['id'], $filter_status, $filter_type);
+          $page = 'issues';
+          break;
+
+        case route("^/(\d+)$"):
+          $issue_number = (int)$params[1];
+          $issue = \core\getIssue($project['id'], $issue_number);
+
+          if(!$issue) { $page = '404'; break; }
+
+          if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $author = \auth\is_authenticated()
+              ? \auth\current_user()
+              : trim(@$_POST['author']);
+            $body = trim(@$_POST['body']) ?: null;
+            $status = null;
+
+            if(\auth\is_authenticated() && isset($_POST['status'])) {
+              $valid = array_merge(['open'], \core\CLOSED_STATUSES);
+              $status = in_array($_POST['status'], $valid) ? $_POST['status'] : null;
+            }
+
+            if($author && ($body || $status)) {
+              \core\addLogEntry($issue['id'], $author, $body, $status);
+              if($body) \core\createIssueRefs($issue['id'], $author, $body);
+            }
+
+            header("Location: /{$namespace}/{$project_name}/{$issue_number}");
+            exit;
+          }
+
+          $page = 'issue';
+          break;
+
+        case route("^/?$"):
+          $page = 'project';
+          break;
+      }
+
+      if(isset($page)) break;
+    }
+
+  default:
+    http_response_code(404);
+    $page = '404';
+    break;
+}
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title><?= SITE_TITLE ?></title>
+    <?php if(UNLISTED): ?>
+      <meta name="robots" content="noindex, nofollow" />
+    <?php endif ?>
+    <style>
+      <?php include __DIR__ . "/partials/main.css" ?>
+    </style>
+  </head>
+  <body>
+    <?php if(isset($project)) include __DIR__ . "/partials/header.php" ?>
+    <?php include __DIR__ . "/partials/{$page}.php" ?>
+  </body>
+</html>
