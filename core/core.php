@@ -33,7 +33,7 @@ function createProject($namespace, $project_name, $description = null) {
   \store\exec_query(
     'INSERT INTO projects (namespace, project_name, description) VALUES (?, ?, ?)',
     [$namespace, $project_name, $description]
-  );
+  ) or die("Failed to create project.");
   return getProject($namespace, $project_name);
 }
 
@@ -135,7 +135,7 @@ function createIssue($project_id, $author, $type, $title, $body) {
   \store\exec_query(
     'INSERT INTO issues (project_id, number, author, type, title, body) VALUES (?, ?, ?, ?, ?, ?)',
     [$project_id, $number, $author, $type, $title, $body]
-  );
+  ) or die("Failed to create issue.");
   return getIssue($project_id, $number);
 }
 
@@ -149,7 +149,7 @@ function createIssueRefs($source_issue_id, $author, $body) {
     \store\exec_query(
       'INSERT INTO issue_refs (issue_id, source_issue_id, author) VALUES (?, ?, ?)',
       [$issue['id'], $source_issue_id, $author]
-    );
+    ) or die("Failed to create issue ref.");
   }
 }
 
@@ -157,7 +157,7 @@ function addLogEntry($issue_id, $author, $body, $status = null) {
   \store\exec_query(
     'INSERT INTO issue_log (issue_id, author, body, status) VALUES (?, ?, ?, ?)',
     [$issue_id, $author, $body, $status]
-  );
+  ) or die("Failed to add log entry.");
 }
 
 // Milestones

@@ -47,7 +47,7 @@ switch (true) {
       \store\exec_query(
         'INSERT INTO issue_commits (issue_id, author, rev, repo_id) VALUES (?, ?, ?, ?)',
         [$issue['id'], @$_POST['author'], @$_POST['rev'], $repo['id']]
-      );
+      ) or die("Failed to link commit.");
     }
 
     exit;
