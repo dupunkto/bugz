@@ -29,7 +29,7 @@ hgroup h3 {
 hgroup p {
   margin-top: 0.5em;
   font-family: var(--font-sans);
-  font-size: .9em;
+  font-size: 0.9em;
 }
 
 img {
@@ -94,7 +94,6 @@ header h1 a:hover {
 header nav {
   font-family: var(--font-sans);
   font-size: 1rem;
-  order: none;
   flex-grow: 1;
   display: inline-flex;
   flex-wrap: nowrap;
@@ -103,14 +102,13 @@ header nav {
 header nav a {
   align-self: flex-end;
   margin-bottom: -1px;
-  padding: 0 1rem;
+  padding: 0 1rem 3px;
   border-radius: 0;
   border: none;
   cursor: pointer;
   color: light-dark(#495057, #ced4da);
   text-transform: lowercase;
   line-height: 17px;
-  padding-bottom: 3px;
 }
 
 header nav a,
@@ -154,22 +152,37 @@ header .description {
   margin-bottom: -20px;
 }
 
-
 .epic nav .user,
 .epic nav .login,
 header nav .user,
 header nav .login {
   margin-left: auto;
   align-self: flex-end;
-  padding: 0 1rem;
+  padding: 0 1rem 3px;
   color: light-dark(#495057, #ced4da);
   line-height: 17px;
-  padding-bottom: 3px;
 }
 
 .placeholder {
   color: gray;
   font-size: 0.9rem;
+}
+
+.new {
+  text-align: right;
+  background: light-dark(#f1f1f1, #2b2b33);
+  color: currentColor;
+  text-decoration: none;
+  padding: 0 10px;
+  margin-left: 10px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.new:first-of-type {
+  margin-left: auto;
 }
 
 .listing {
@@ -229,7 +242,7 @@ header nav .login {
   font-weight: 400;
   font-size: 1.3rem;
   border-bottom: 1px solid light-dark(#e9ecef, #495057);
-  padding-bottom: .25rem;
+  padding-bottom: 0.25rem;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -237,7 +250,7 @@ header nav .login {
 }
 
 .summary section h2 small {
-  font-size: .7em;
+  font-size: 0.7em;
   text-transform: none;
 }
 
@@ -302,7 +315,7 @@ header nav .login {
   gap: 0.25rem;
   align-items: center;
   padding: 0.5rem 0;
-  border-bottom: 1px solid light-dark(#e9ecef, 282c30);
+  border-bottom: 1px solid light-dark(#e9ecef, #282c30);
   width: 100%;
   flex-wrap: wrap;
 }
@@ -381,6 +394,32 @@ header nav .login {
   margin-left: auto;
 }
 
+.log-event, .comment time {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: light-dark(#6c757d, #adb5bd);
+}
+
+.log-event {
+  padding: 0.4rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0 1em;
+}
+
+.log-event time {
+  margin-left: auto;
+}
+
+.log-status-change {
+  font-size: 0.85rem;
+  color: light-dark(#6c757d, #adb5bd);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
 /* Comments */
 
 .comment {
@@ -413,6 +452,12 @@ header nav .login {
   margin-top: 0.25em;
 }
 
+.comment .author {
+  font-weight: bold;
+  font-family: var(--font-sans);
+  font-size: 0.95em;
+}
+
 /* Comment form */
 
 .comment-form {
@@ -426,23 +471,6 @@ header nav .login {
   font-family: var(--font-sans);
 }
 
-.new {
-  text-align: right;
-  background: light-dark(#f1f1f1, #2b2b33);
-  color: currentColor;
-  text-decoration: none;
-  padding: 0 10px;
-  margin-left: 10px;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-.new:first-of-type {
-  margin-left: auto;
-}
-
 .form-actions {
   display: flex;
   justify-content: space-between;
@@ -454,32 +482,6 @@ header nav .login {
   display: flex;
   gap: 0.25rem;
   flex-wrap: wrap;
-}
-
-.log-event, .comment time {
-  font-family: var(--font-sans);
-  font-size: 0.85rem;
-  color: light-dark(#6c757d, #adb5bd);
-}
-
-.log-event {
-  padding: 0.4rem 0;
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  margin: 0 1em;
-}
-
-.log-event time {
-  margin-left: auto;
-}
-
-.log-status-change {
-  font-size: 0.85rem;
-  color: light-dark(#6c757d, #adb5bd);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
 }
 
 /* Badges */
@@ -518,17 +520,6 @@ header nav .login {
 .dot-duplicate   { background: light-dark(#6a17e1, #c197fc); }
 .dot-not-planned { background: light-dark(#6c757d, #adb5bd); }
 
-/* Not found */
-
-.not-found {
-  height: 60vh;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
 .number {
   font-family: monospace;
   font-size: 0.85em;
@@ -543,10 +534,15 @@ h2 .number {
 
 .number.dot-open { color: light-dark(#5a3300, #2a1800); }
 
-.comment .author {
-  font-weight: bold;
-  font-family: var(--font-sans);
-  font-size: 0.95em;
+/* Not found */
+
+.not-found {
+  height: 60vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 /* Form */
