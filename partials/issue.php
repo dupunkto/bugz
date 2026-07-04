@@ -75,18 +75,19 @@
   <?php endforeach ?>
 
   <form class="comment-form" method="post" action="">
+    <?php if(!\auth\is_authenticated()): ?>
+      <label>
+        Who are you?
+        <input type="text" name="author" required placeholder="Name &lt;email@example.com&gt;" />
+      </label>
+    <?php endif ?>
     <label>
       Comment
       <textarea name="body" rows="5"></textarea>
     </label>
     <?php if(\auth\is_authenticated()): ?>
       <p class="comment-as">commenting as <strong><?= esc_inner(\auth\current_user()) ?></strong></p>
-    <?php else: ?>
-      <label>
-        Author
-        <input type="text" name="author" required placeholder="Name &lt;email@example.com&gt;" />
-      </label>
-    <?php endif ?>
+    <?php endif; ?>
     <div class="form-actions">
       <?php if(\auth\is_authenticated()): ?>
         <div class="close-actions">
