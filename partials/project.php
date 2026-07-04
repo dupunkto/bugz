@@ -25,11 +25,11 @@
           </a>
         </li>
       <?php endforeach ?>
-
-      <?php if(empty($recent_issues)): ?>
-        <p class="placeholder">No open issues.</p>
-      <?php endif ?>
     </ul>
+
+    <?php if(empty($recent_issues)): ?>
+      <p class="placeholder">No open issues.</p>
+    <?php endif ?>
   </section>
 
   <section class="milestones">

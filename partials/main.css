@@ -253,6 +253,12 @@ header nav .login {
   font-size: 0.9rem;
 }
 
+.summary .issues:has(li) h2,
+.summary .recent-activity:has(li) h2 {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
 .summary .issues ul,
 .summary .recent-activity ul {
   list-style: none;
