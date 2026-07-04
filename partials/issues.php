@@ -14,8 +14,7 @@
     <?php foreach($issues as $issue): ?>
       <li>
         <a href="/<?= esc_attr($namespace) ?>/<?= esc_attr($project_name) ?>/<?= $issue['number'] ?>">
-          <span class="dot dot-<?= esc_attr($issue['status']) ?>" title="<?= esc_attr($issue['status']) ?>"></span>
-          <span class="title"><span class="number">#<?= $issue['number'] ?></span> <?= esc_inner($issue['title']) ?></span>
+          <span class="title"><span class="number dot-<?= esc_attr($issue['status']) ?>" title="<?= esc_attr($issue['status']) ?>">#<?= $issue['number'] ?></span> <?= esc_inner($issue['title']) ?></span>
         </a>
       </li>
     <?php endforeach ?>

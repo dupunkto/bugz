@@ -253,13 +253,15 @@ header nav .login {
   font-size: 0.9rem;
 }
 
-.summary .issues ul {
+.summary .issues ul,
+.summary .recent-activity ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.summary .issues li a {
+.summary .issues li a,
+.summary .recent-activity li a {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -272,14 +274,16 @@ header nav .login {
   margin-bottom: 0.3rem;
 }
 
-.summary .issues li .title {
+.summary .issues li .title,
+.summary .recent-activity li .title {
   align-items: center;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 
-.summary .issues li .badges {
+.summary .issues li .badges,
+.summary .recent-activity li .badges {
   display: flex;
 }
 
@@ -362,6 +366,9 @@ header nav .login {
 .issue-detail h2 {
   display: flex;
   align-items: center;
+  margin-bottom: 0;
+  border-bottom: 0;
+  padding-bottom: 0;
 }
 
 .issue-detail h2 .badge {
@@ -500,11 +507,6 @@ header nav .login {
   margin: 0 0.3em;
 }
 
-h2 .dot {
-  margin-top: 0.2em;
-  margin-right: 0.5em;
-}
-
 .dot-open        { background: light-dark(#f5a30b, #f5ce0b); }
 .dot-completed   { background: light-dark(#166534, #5dbb7f); }
 .dot-duplicate   { background: light-dark(#6a17e1, #c197fc); }
@@ -523,14 +525,17 @@ h2 .dot {
 
 .number {
   font-family: monospace;
-  color: light-dark(#6c757d, #adb5bd);
   font-size: 0.85em;
-  margin-right: 0.25rem;
+  margin-right: 0.4rem;
+  padding: 0.15em 0.45em;
+  color: light-dark(white, #111);
 }
 
 h2 .number {
   font-size: 0.75em;
 }
+
+.number.dot-open { color: light-dark(#5a3300, #2a1800); }
 
 .comment .author {
   font-weight: bold;

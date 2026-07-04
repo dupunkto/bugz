@@ -12,16 +12,12 @@
 ?>
 
 <main class="container issue-detail">
-  <hgroup>
-    <h2>
-      <span class="dot dot-<?= esc_attr($issue['status']) ?>" title="<?= esc_attr($issue['status']) ?>"></span>
-      <span class="title">
-        <span class="number">#<?= $issue['number'] ?></span>
-        <?= esc_inner($issue['title']) ?>
-      </span>
-    </h2>
-
-  </hgroup>
+  <h2>
+    <span class="title">
+      <span class="number dot-<?= esc_attr($issue['status']) ?>" title="<?= esc_attr($issue['status']) ?>">#<?= $issue['number'] ?></span>
+      <?= esc_inner($issue['title']) ?>
+    </span>
+  </h2>
 
   <article class="comment">
     <header>
@@ -56,8 +52,7 @@
       </div>
     <?php elseif($event['body'] && $event['status']): ?>
       <div class="log-event">
-        <span class="dot dot-<?= esc_attr($event['status']) ?>" title="<?= esc_attr($event['status']) ?>"></span>
-        <span class="author"><?= esc_inner($event['author']) ?></span> changed status to <?= esc_inner($event['status']) ?>, with comment:
+        <span class="author"><?= esc_inner($event['author']) ?></span> changed status to <span class="dot dot-<?= esc_attr($event['status']) ?>" title="<?= esc_attr($event['status']) ?>"></span><?= esc_inner($event['status']) ?>, with comment:
         <time><?= esc_inner($event['posted_at']) ?></time>
       </div>
       <article class="comment">
@@ -73,8 +68,7 @@
       </article>
     <?php elseif($event['status']): ?>
       <div class="log-event">
-        <span class="dot dot-<?= esc_attr($event['status']) ?>" title="<?= esc_attr($event['status']) ?>"></span>
-        <span class="author"><?= esc_inner($event['author']) ?></span> changed status to <?= esc_inner($event['status']) ?>
+        <span class="author"><?= esc_inner($event['author']) ?></span> changed status to <span class="dot dot-<?= esc_attr($event['status']) ?>" title="<?= esc_attr($event['status']) ?>"></span><?= esc_inner($event['status']) ?>
         <time><?= esc_inner($event['posted_at']) ?></time>
       </div>
     <?php endif ?>

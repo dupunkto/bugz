@@ -88,6 +88,28 @@ function countIssues($project_id, $status, $type = null) {
   return (int)($row['n'] ?? 0);
 }
 
+function listRecentlyActiveIssues($project_id, $limit = 5) {
+  return \store\all(
+    'SELECT i.*
+     FROM issues_with_status i
+     JOIN (
+       SELECT issue_id, MAX(ts) AS last_activity
+       FROM (
+         SELECT issue_id, posted_at AS ts FROM issue_log
+         UNION ALL
+         SELECT issue_id, linked_at AS ts FROM issue_commits
+         UNION ALL
+         SELECT issue_id, linked_at AS ts FROM issue_refs
+       ) all_activity
+       GROUP BY issue_id
+     ) a ON a.issue_id = i.id
+     WHERE i.project_id = ?
+     ORDER BY a.last_activity DESC
+     LIMIT ?',
+    [$project_id, $limit]
+  ) ?: [];
+}
+
 function getIssue($project_id, $number) {
   return \store\one(
     'SELECT * FROM issues_with_status WHERE project_id = ? AND number = ?',
