@@ -2,3 +2,5 @@ name: issues.dupunkto.org
 type: static
 host: nov
 src: .
+exclude:
+- data.db
