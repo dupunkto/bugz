@@ -129,7 +129,7 @@ header nav a:hover {
   font-size: 1rem;
   margin-top: 0;
   background: light-dark(#ddd, #2b2b33);
-  padding: 0.1rem 0;
+  padding: 0.1em 0;
   display: flex;
 }
 
@@ -180,7 +180,7 @@ header nav .login {
 }
 
 .listing h2 {
-  margin-bottom: 0.1rem;
+  margin-bottom: 0.1em;
   border-bottom: none;
   padding-bottom: 0;
 }
@@ -211,7 +211,7 @@ header nav .login {
 .listing h3,
 .listing p {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1em;
 }
 
 /* Project overview */
@@ -542,9 +542,9 @@ form {
 
 footer.container {
   font-family: var(--font-sans);
-  font-size: 0.8rem;
+  font-size: 0.8em;
   color: gray;
-  margin: 1rem auto;
+  margin: 1em auto;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -29,7 +29,7 @@
         <a class="new" href="/<?= esc_attr($namespace) ?>/<?= esc_attr($project_name) ?>/bugs/new">new bug</a>
         <a class="new" href="/<?= esc_attr($namespace) ?>/<?= esc_attr($project_name) ?>/tasks/new">new task</a>
       <?php else: ?>
-        <a class="new" href="mailto:<?= esc_attr(ISSUES_EMAIL) ?>">new bug</a>
+        <a class="new" href="mailto:<?= esc_attr(EMAIL) ?>">new bug</a>
       <?php endif ?>
     </p>
   </div>
