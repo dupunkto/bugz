@@ -18,7 +18,7 @@ function current_user() {
   $user = @$_SESSION['current_user'];
   if(!$user) return null;
 
-  $name = @$user['name'];
+  $name = @$user['displayname'];
   $email = @$user['email'];
 
   return $email ? "{$name} <{$email}>" : $name;
