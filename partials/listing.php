@@ -11,7 +11,10 @@
   </div>
 </header>
 
-<?php $namespaces = \core\listNamespaces() ?>
+<?php
+  $namespaces = \core\listNamespaces();
+  $projects = \core\listProjects();
+?>
 
 <main class="container listing">
   <?php foreach($namespaces as $ns): ?>
@@ -32,7 +35,7 @@
 </main>
 
 <footer class="container">
-  <span><?= count($namespaces) ?> projects</span>
+  <span><?= count($projects) ?> projects</span>
   <span>
     Powered by <a href="//git.dupunkto.org/dupunkto/bugz">Bugz</a>, 
     a <a href="//dupunkto.org">{du}punkto</a> project.
