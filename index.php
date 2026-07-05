@@ -161,7 +161,10 @@ switch (true) {
               $status = in_array($_POST['status'], $valid) ? $_POST['status'] : null;
             }
 
-            if($author && ($body || $status)) {
+            $captcha = array_unique($_POST['captcha'] ?? []); sort($captcha);
+            $ok = \auth\is_authenticated() || $captcha == ['bike-0', 'bike-1', 'bike-2'];
+            
+            if($author && ($body || $status) && $ok) {
               \core\addLogEntry($issue['id'], $author, $body, $status);
               if($body) \core\createIssueRefs($issue['id'], $author, $body);
             }

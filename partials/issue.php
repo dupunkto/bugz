@@ -86,7 +86,7 @@
       <textarea name="body" rows="5"></textarea>
     </label>
     <?php if(\auth\is_authenticated()): ?>
-      <p class="comment-as">commenting as <strong><?= esc_inner(\auth\current_user()) ?></strong></p>
+      <p class="comment-as">commenting as <strong><?= esc_inner(\auth\current_user()) ?></strong></p>    
     <?php endif; ?>
     <div class="form-actions">
       <?php if(\auth\is_authenticated()): ?>
@@ -99,6 +99,26 @@
             <button name="status" value="open">Reopen</button>
           <?php endif ?>
         </div>
+      <?php else: ?>
+        <fieldset class="captcha">
+          <?php
+            $items = [
+              ['emoji' => '🚲', 'value' => 'bike-0'],
+              ['emoji' => '🚲', 'value' => 'bike-1'],
+              ['emoji' => '🚲', 'value' => 'bike-2'],
+              ['emoji' => '🚂', 'value' => 'train'],
+              ['emoji' => '🚗', 'value' => 'car'],
+            ];
+            shuffle($items);
+          ?>
+          <legend>Click all bicycles</legend>
+          <?php foreach($items as $item): ?>
+            <label>
+              <input type="checkbox" name="captcha[]" value="<?= esc_attr($item['value']) ?>">
+              <?= $item['emoji'] ?>
+            </label>
+          <?php endforeach ?>
+        </fieldset>
       <?php endif ?>
       <button type="submit">Comment</button>
     </div>

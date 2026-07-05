@@ -478,6 +478,10 @@ header nav .login {
   gap: 0.5rem;
 }
 
+.form-actions:has(.captcha) {
+  align-items: flex-start;
+}
+
 .close-actions {
   display: flex;
   gap: 0.25rem;
@@ -549,6 +553,40 @@ h2 .number {
 
 form {
   margin-bottom: 2em;
+}
+
+.captcha {
+  display: flex;
+  align-items: justify-around;
+  justify-content: space-evenly;
+  border: none;
+}
+
+.captcha label {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.captcha input {
+  width: 1.2em;
+  height: 1.2em;
+}
+
+.captcha, .captcha legend {
+  padding: 0;
+  margin: 0;
+}
+
+.captcha legend {
+  font-weight: bold;
+  float: left;
+  margin-right: 1em;
+}
+
+.captcha legend::after {
+  content: ":";
 }
 
 /* Footer */
