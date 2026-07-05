@@ -489,6 +489,10 @@ header nav a.new + a.new {
   align-items: flex-start;
 }
 
+.form-actions:has(.captcha) [type="submit"] {
+  margin-left: auto;
+}
+
 .close-actions {
   display: flex;
   gap: 0.25rem;
