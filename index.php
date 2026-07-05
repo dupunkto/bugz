@@ -80,6 +80,28 @@ switch (true) {
     echo BUGZ_URL . "/{$namespace}/{$project_name}\n";
     exit;
 
+  case route("^/new$"):
+    \auth\require_authenticated();
+
+    if($method == 'POST') {
+      $namespace = trim(@$_POST['namespace']);
+      $project_name = trim(@$_POST['project_name']);
+      $description = trim(@$_POST['description']) ?: null;
+
+      if($namespace && $project_name) {
+        if(\core\getProject($namespace, $project_name)) {
+          $form_error = "A project with that name already exists in that namespace.";
+        } else {
+          \core\createProject($namespace, $project_name, $description);
+          header("Location: /{$namespace}/{$project_name}");
+          exit;
+        }
+      }
+    }
+
+    $page = 'new-project';
+    break;
+
   // Redirect bare namespace URLs to home
   case route("{$ns_pattern}/?$"):
     header("Location: /");
@@ -107,7 +129,7 @@ switch (true) {
           }
 
           $type = 'task';
-          $page = 'new';
+          $page = 'new-issue';
           break;
 
         case route("^/bugs/new$"):

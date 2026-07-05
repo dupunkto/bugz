@@ -3,8 +3,10 @@
     <h1><?= SITE_TITLE ?></h1>
     <nav>
       <?php if(\auth\is_authenticated()): ?>
+        <a class="new" href="/new">+ project</a>
         <span class="user"><?= esc_inner(\auth\current_user()) ?></span>
       <?php else: ?>
+        <a class="new" href="mailto:<?= esc_attr(EMAIL) ?>?subject=<?= rawurlencode("Bug report for project not listed on bugs.dupunkto.org") ?>">@ submit bug report</a>
         <a class="login" href="/login">login &rarr;</a>
       <?php endif ?>
     </nav>
