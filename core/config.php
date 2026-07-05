@@ -7,7 +7,7 @@ define('SITE_TITLE', getenv("SITE_TITLE") ?: "{du}punkto issue tracker");
 define('EMAIL', getenv("EMAIL") ?: 'issues@dupunkto.org');
 
 define('GITZ_URL', rtrim(getenv("GITZ_URL") ?: "https://git.dupunkto.org", "/"));
-define('BUGZ_URL', rtrim(getenv("BUGZ_URL") ?: "https://issues.dupunkto.org", "/"));
+define('BUGZ_URL', rtrim(getenv("BUGZ_URL") ?: "https://bugs.dupunkto.org", "/"));
 
 define('SECRET', getenv("SECRET"));
 
