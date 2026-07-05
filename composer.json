@@ -1,6 +1,5 @@
 {
     "require": {
-        "erusev/parsedown": "^1.7",
-        "ezyang/htmlpurifier": "^4.19"
+        "league/commonmark": "^2.8"
     }
 }

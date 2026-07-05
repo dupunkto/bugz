@@ -216,8 +216,12 @@ function gitzCommitURL($namespace, $repo, $hash) {
 }
 
 function renderBody($text) {
-  $html = (new \Parsedown())->text($text);
-  $html = (new \HTMLPurifier())->purify($html);
+  $converter = new \League\CommonMark\GithubFlavoredMarkdownConverter([
+    'html_input' => 'escape',
+    'allow_unsafe_links' => false,
+  ]);
+
+  $html = $converter->convert($text)->getContent();
 
   // ~ns/repo@hash -> commit link
   $html = preg_replace_callback(
