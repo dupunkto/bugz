@@ -216,22 +216,22 @@ function gitzCommitURL($namespace, $repo, $hash) {
 }
 
 function renderBody($text) {
-  // Pre-escape user content so injected HTML below isn't treated as user input
-  $text = htmlspecialchars($text, ENT_QUOTES, 'UTF-8', false);
+  $html = (new \Parsedown())->text($text);
+  $html = (new \HTMLPurifier())->purify($html);
 
-  // ~?ns/repo@hash → commit link
-  $text = preg_replace_callback(
+  // ~ns/repo@hash -> commit link
+  $html = preg_replace_callback(
     '/~?([a-zA-Z0-9_\-\.]+)\/([a-zA-Z0-9_\-\.]+)@([0-9a-f]{7,40})\b/',
     function($m) {
       $url = esc_attr(gitzCommitURL($m[1], $m[2], $m[3]));
       $label = esc_inner($m[1] . '/' . $m[2] . '@' . substr($m[3], 0, 7));
       return '<a href="' . $url . '">' . $label . '</a>';
     },
-    $text
+    $html
   );
 
-  // ~?ns/project#N → status dot + issue link
-  $text = preg_replace_callback(
+  // ~ns/project#N -> status dot + issue link
+  $html = preg_replace_callback(
     '/~?([a-zA-Z0-9_\-\.]+)\/([a-zA-Z0-9_\-\.]+)#(\d+)/',
     function($m) {
       $url = esc_attr('/' . $m[1] . '/' . $m[2] . '/' . $m[3]);
@@ -247,8 +247,8 @@ function renderBody($text) {
       }
       return $dot . '<a href="' . $url . '">' . $label . '</a>';
     },
-    $text
+    $html
   );
 
-  return (new \Parsedown())->text($text);
+  return $html;
 }
