@@ -15,8 +15,11 @@
       <a href="/<?= esc_attr($namespace) ?>/<?= esc_attr($project_name) ?>/bugs"
          class="<?= $on_bugs ? 'selected' : '' ?>">bugs</a>
       <?php if(\auth\is_authenticated()): ?>
+        <a class="new" href="/<?= esc_attr($namespace) ?>/<?= esc_attr($project_name) ?>/bugs/new">+ bug</a>
+        <a class="new" href="/<?= esc_attr($namespace) ?>/<?= esc_attr($project_name) ?>/tasks/new">+ task</a>
         <span class="user"><?= esc_inner(\auth\current_user()) ?></span>
       <?php else: ?>
+        <a class="new" href="mailto:<?= esc_attr(EMAIL) ?>?subject=<?= rawurlencode("Bug report: ~$namespace/$project_name") ?>">@ submit bug report</a>
         <a class="login" href="/login">login &rarr;</a>
       <?php endif ?>
     </nav>
@@ -24,13 +27,6 @@
   <div class="line">
     <p class="container description">
       <?= esc_inner(@$project['description']) ?>
-
-      <?php if(\auth\is_authenticated()): ?>
-        <a class="new" href="/<?= esc_attr($namespace) ?>/<?= esc_attr($project_name) ?>/bugs/new">new bug</a>
-        <a class="new" href="/<?= esc_attr($namespace) ?>/<?= esc_attr($project_name) ?>/tasks/new">new task</a>
-      <?php else: ?>
-        <a class="new" href="mailto:<?= esc_attr(EMAIL) ?>">new bug</a>
-      <?php endif ?>
     </p>
   </div>
 </header>

@@ -44,7 +44,7 @@
     <?php elseif($event['_type'] === 'commit'): ?>
       <div class="log-event">
         Referenced in
-        <a href="<?= esc_attr(\core\gitzCommitURL($event['namespace'], $event['repo_name'], $event['rev'])) ?>">
+        <a href="<?= esc_attr(\core\commitURL($event['namespace'], $event['repo_name'], $event['rev'])) ?>">
           <?= esc_inner($event['namespace']) ?>/<?= esc_inner($event['repo_name']) ?>@<?= esc_inner(substr($event['rev'], 0, 7)) ?>
         </a>
         by <span class="author"><?= esc_inner($event['author']) ?></span>

@@ -211,7 +211,7 @@ function repoURL($namespace, $repo) {
   return GITZ_URL . '/~' . rawurlencode($namespace) . '/' . rawurlencode($repo);
 }
 
-function gitzCommitURL($namespace, $repo, $hash) {
+function commitURL($namespace, $repo, $hash) {
   return repoURL($namespace, $repo) . '/commit/' . $hash;
 }
 
@@ -227,7 +227,7 @@ function renderBody($text) {
   $html = preg_replace_callback(
     '/~?([a-zA-Z0-9_\-\.]+)\/([a-zA-Z0-9_\-\.]+)@([0-9a-f]{7,40})\b/',
     function($m) {
-      $url = esc_attr(gitzCommitURL($m[1], $m[2], $m[3]));
+      $url = esc_attr(commitURL($m[1], $m[2], $m[3]));
       $label = esc_inner($m[1] . '/' . $m[2] . '@' . substr($m[3], 0, 7));
       return '<a href="' . $url . '">' . $label . '</a>';
     },
