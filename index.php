@@ -148,7 +148,7 @@ switch (true) {
           }
 
           $type = 'bug';
-          $page = 'new';
+          $page = 'new-issue';
           break;
 
         case route("^/tasks/?$"):

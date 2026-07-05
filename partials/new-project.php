@@ -7,7 +7,7 @@
   </div>
 </header>
 
-<main class="container issue-new">
+<main class="container project-new">
   <h2>New project</h2>
 
   <?php if(isset($form_error)): ?>
@@ -15,22 +15,21 @@
   <?php endif ?>
 
   <form class="new-form" method="post" action="">
-    <label>
-      Namespace
-      <input type="text" name="namespace" required autofocus
-             value="<?= esc_attr(@$_POST['namespace']) ?>" />
-    </label>
+    <div class="split">
+      <label>
+        Namespace
+        <input type="text" name="namespace" required autofocus value="<?= esc_attr(@$_POST['namespace']) ?>" />
+      </label>
 
-    <label>
-      Project name
-      <input type="text" name="project_name" required
-             value="<?= esc_attr(@$_POST['project_name']) ?>" />
-    </label>
+      <label>
+        Project name
+        <input type="text" name="project_name" required value="<?= esc_attr(@$_POST['project_name']) ?>" />
+      </label>
+    </div>
 
     <label>
       Description
-      <input type="text" name="description"
-             value="<?= esc_attr(@$_POST['description']) ?>" />
+      <input type="text" name="description" value="<?= esc_attr(@$_POST['description']) ?>" />
     </label>
 
     <button type="submit">create project</button>

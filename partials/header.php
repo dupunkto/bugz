@@ -15,8 +15,8 @@
       <a href="/<?= esc_attr($namespace) ?>/<?= esc_attr($project_name) ?>/bugs"
          class="<?= $on_bugs ? 'selected' : '' ?>">bugs</a>
       <?php if(\auth\is_authenticated()): ?>
-        <a class="new" href="/<?= esc_attr($namespace) ?>/<?= esc_attr($project_name) ?>/bugs/new">+ bug</a>
         <a class="new" href="/<?= esc_attr($namespace) ?>/<?= esc_attr($project_name) ?>/tasks/new">+ task</a>
+        <a class="new" href="/<?= esc_attr($namespace) ?>/<?= esc_attr($project_name) ?>/bugs/new">+ bug</a>
         <span class="user"><?= esc_inner(\auth\current_user()) ?></span>
       <?php else: ?>
         <a class="new" href="mailto:<?= esc_attr(EMAIL) ?>?subject=<?= rawurlencode("Bug report: ~$namespace/$project_name") ?>">@ submit bug report</a>

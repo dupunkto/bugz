@@ -179,6 +179,12 @@ header nav .login {
   font-size: 0.9rem;
 }
 
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
+}
+
 .new {
   background: light-dark(#f1f1f1, #2b2b33);
   margin-bottom: 0.05px;
@@ -385,8 +391,13 @@ header nav a.new + a.new {
 
 /* Issue detail */
 
-.issue-detail, .issue-new {
+.issue-detail, .issue-new, .project-new {
   display: block;
+}
+
+.issue-new, .project-new {
+  max-width: 760px;
+  margin-top: 2em;
 }
 
 .issue-detail h2 {
