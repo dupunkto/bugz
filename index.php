@@ -42,24 +42,20 @@ switch (true) {
       exit;
     }
 
-    $repo = \core\getRepo(@$_POST['namespace'], @$_POST['repo']);
+    $repo = \core\getRepo(@$_POST['namespace'], @$_POST['repo'])
+      ?: \core\createRepo(@$_POST['namespace'], @$_POST['repo']);
 
-    if(!$repo) {
-      http_response_code(404);
-      echo "There is no such repo.";
-      exit;
-    }
-
-    foreach(\core\parseRefs(@$_POST['message']) as $ref) {
+    foreach(\core\parseActionRefs(@$_POST['message']) as $ref) {
       $project = \core\getProject($ref['namespace'], $ref['project']);
       if(!$project) continue;
 
       $issue = \core\getIssue($project['id'], $ref['number']);
       if(!$issue) continue;
 
+      $status = ($ref['status'] && $issue['status'] !== $ref['status']) ? $ref['status'] : null;
       \store\exec_query(
-        'INSERT INTO issue_commits (issue_id, author, rev, repo_id) VALUES (?, ?, ?, ?)',
-        [$issue['id'], @$_POST['author'], @$_POST['rev'], $repo['id']]
+        'INSERT INTO issue_commits (issue_id, author, rev, repo_id, status) VALUES (?, ?, ?, ?, ?)',
+        [$issue['id'], @$_POST['author'], @$_POST['rev'], $repo['id'], $status]
       ) or die("Failed to link commit.");
     }
 

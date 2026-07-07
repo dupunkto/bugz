@@ -2,7 +2,7 @@
 
 namespace core;
 
-define('STORE_VERSION', 0);
+define('STORE_VERSION', 1);
 
 require_once __DIR__ . "/../vendor/autoload.php";
 require_once __DIR__ . "/config.php";
@@ -49,6 +49,13 @@ function listLinkedRepos($project_id) {
 
 function getRepo($namespace, $repo_name) {
   return \store\one('SELECT * FROM repos WHERE namespace = ? AND repo_name = ?', [$namespace, $repo_name]);
+}
+
+function createRepo($namespace, $repo_name) {
+  \store\exec_query('INSERT INTO repos (namespace, repo_name) VALUES (?, ?)', [$namespace, $repo_name])
+    or die("Failed to create repo.");
+
+  return getRepo($namespace, $repo_name);
 }
 
 // Issues
@@ -203,6 +210,47 @@ function parseRefs($message) {
   foreach($matches as $m) {
     $refs[] = ['namespace' => $m[1], 'project' => $m[2], 'number' => (int)$m[3]];
   }
+  return $refs;
+}
+
+function parseActionRefs($message) {
+  static $action_map = [
+    'closes'  => 'completed',
+    'fixes'   => 'completed',
+    'reopens' => 'open',
+  ];
+
+  $ref_pat = '~?([a-zA-Z0-9_\-\.]+)\/([a-zA-Z0-9_\-\.]+)#(\d+)';
+  $refs = [];
+  $actioned = [];
+
+  preg_match_all(
+    '/(closes|fixes|reopens)\s+' . $ref_pat . '/i',
+    $message, $matches, PREG_SET_ORDER
+  );
+  foreach ($matches as $m) {
+    $key = "{$m[2]}/{$m[3]}#{$m[4]}";
+    $actioned[$key] = true;
+    $refs[] = [
+      'namespace' => $m[2],
+      'project'   => $m[3],
+      'number'    => (int)$m[4],
+      'status'    => $action_map[strtolower($m[1])],
+    ];
+  }
+
+  preg_match_all('/' . $ref_pat . '/', $message, $plain, PREG_SET_ORDER);
+  foreach ($plain as $m) {
+    $key = "{$m[1]}/{$m[2]}#{$m[3]}";
+    if (isset($actioned[$key])) continue;
+    $refs[] = [
+      'namespace' => $m[1],
+      'project'   => $m[2],
+      'number'    => (int)$m[3],
+      'status'    => null,
+    ];
+  }
+
   return $refs;
 }
 

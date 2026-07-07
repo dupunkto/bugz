@@ -43,11 +43,18 @@
       </div>
     <?php elseif($event['_type'] === 'commit'): ?>
       <div class="log-event">
-        Referenced in
-        <a href="<?= esc_attr(\core\commitURL($event['namespace'], $event['repo_name'], $event['rev'])) ?>">
-          <?= esc_inner($event['namespace']) ?>/<?= esc_inner($event['repo_name']) ?>@<?= esc_inner(substr($event['rev'], 0, 7)) ?>
-        </a>
-        by <span class="author"><?= esc_inner($event['author']) ?></span>
+        <?php if($event['status']): ?>
+          <span class="author"><?= esc_inner($event['author']) ?></span> changed status to <span class="dot dot-<?= esc_attr($event['status']) ?>" title="<?= esc_attr($event['status']) ?>"></span><?= esc_inner($event['status']) ?> in
+          <a href="<?= esc_attr(\core\commitURL($event['namespace'], $event['repo_name'], $event['rev'])) ?>">
+            <?= esc_inner($event['namespace']) ?>/<?= esc_inner($event['repo_name']) ?>@<?= esc_inner(substr($event['rev'], 0, 7)) ?>
+          </a>
+        <?php else: ?>
+          Referenced in
+          <a href="<?= esc_attr(\core\commitURL($event['namespace'], $event['repo_name'], $event['rev'])) ?>">
+            <?= esc_inner($event['namespace']) ?>/<?= esc_inner($event['repo_name']) ?>@<?= esc_inner(substr($event['rev'], 0, 7)) ?>
+          </a>
+          by <span class="author"><?= esc_inner($event['author']) ?></span>
+        <?php endif ?>
         <time datetime="<?= str_replace(' ', 'T', $event['linked_at']) ?>Z"><?= esc_inner($event['linked_at']) ?></time>
       </div>
     <?php elseif($event['body'] && $event['status']): ?>
