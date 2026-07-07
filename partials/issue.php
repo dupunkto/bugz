@@ -22,7 +22,7 @@
   <article class="comment">
     <header>
       <span class="author"><?= esc_inner(@$issue['author']) ?></span>
-      <time><?= esc_inner(@$issue['created_at']) ?></time>
+      <time datetime="<?= str_replace(' ', 'T', @$issue['created_at']) ?>Z"><?= esc_inner(@$issue['created_at']) ?></time>
     </header>
     <?php if($issue['body']): ?>
       <?= \core\renderBody($issue['body']) ?>
@@ -39,7 +39,7 @@
           <?= esc_inner($event['source_namespace']) ?>/<?= esc_inner($event['source_project']) ?>#<?= $event['source_number'] ?>
         </a>
         by <span class="author"><?= esc_inner($event['author']) ?></span>
-        <time><?= esc_inner($event['linked_at']) ?></time>
+        <time datetime="<?= str_replace(' ', 'T', $event['linked_at']) ?>Z"><?= esc_inner($event['linked_at']) ?></time>
       </div>
     <?php elseif($event['_type'] === 'commit'): ?>
       <div class="log-event">
@@ -48,12 +48,12 @@
           <?= esc_inner($event['namespace']) ?>/<?= esc_inner($event['repo_name']) ?>@<?= esc_inner(substr($event['rev'], 0, 7)) ?>
         </a>
         by <span class="author"><?= esc_inner($event['author']) ?></span>
-        <time><?= esc_inner($event['linked_at']) ?></time>
+        <time datetime="<?= str_replace(' ', 'T', $event['linked_at']) ?>Z"><?= esc_inner($event['linked_at']) ?></time>
       </div>
     <?php elseif($event['body'] && $event['status']): ?>
       <div class="log-event">
         <span class="author"><?= esc_inner($event['author']) ?></span> changed status to <span class="dot dot-<?= esc_attr($event['status']) ?>" title="<?= esc_attr($event['status']) ?>"></span><?= esc_inner($event['status']) ?>, with comment:
-        <time><?= esc_inner($event['posted_at']) ?></time>
+        <time datetime="<?= str_replace(' ', 'T', $event['posted_at']) ?>Z"><?= esc_inner($event['posted_at']) ?></time>
       </div>
       <article class="comment">
         <?= \core\renderBody($event['body']) ?>
@@ -62,14 +62,14 @@
       <article class="comment">
         <header>
           <span class="author"><?= esc_inner($event['author']) ?></span>
-          <time><?= esc_inner($event['posted_at']) ?></time>
+          <time datetime="<?= str_replace(' ', 'T', $event['posted_at']) ?>Z"><?= esc_inner($event['posted_at']) ?></time>
         </header>
         <?= \core\renderBody($event['body']) ?>
       </article>
     <?php elseif($event['status']): ?>
       <div class="log-event">
         <span class="author"><?= esc_inner($event['author']) ?></span> changed status to <span class="dot dot-<?= esc_attr($event['status']) ?>" title="<?= esc_attr($event['status']) ?>"></span><?= esc_inner($event['status']) ?>
-        <time><?= esc_inner($event['posted_at']) ?></time>
+        <time datetime="<?= str_replace(' ', 'T', $event['posted_at']) ?>Z"><?= esc_inner($event['posted_at']) ?></time>
       </div>
     <?php endif ?>
   <?php endforeach ?>
