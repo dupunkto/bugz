@@ -22,6 +22,19 @@ switch (true) {
     isset($_GET['code']) ? \auth\handle_callback() : \auth\initiate_session();
     exit;
 
+  case route("^/api/issue$") && $method == 'GET':
+    header('Content-Type: application/json');
+    header('Access-Control-Allow-Origin: *');
+
+    $project = \core\getProject(@$_GET['repo'], @$_GET['project']);
+    if(!$project) { http_response_code(404); echo '{"error":"not found"}'; exit; }
+
+    $issue = \core\getIssue($project['id'], (int)@$_GET['number']);
+    if(!$issue) { http_response_code(404); echo '{"error":"not found"}'; exit; }
+
+    echo json_encode(['status' => $issue['status']]);
+    exit;
+
   case route("^/api/commit$") && $method == 'POST':
     if(!SECRET || @$_SERVER['HTTP_AUTHORIZATION'] != 'Bearer ' . SECRET) {
       http_response_code(401);
@@ -52,7 +65,7 @@ switch (true) {
 
     exit;
 
-  case route("^/api/project$") && $_SERVER['REQUEST_METHOD'] == 'POST':
+  case route("^/api/project$") && $method == 'POST':
     if (!SECRET || @$_SERVER['HTTP_AUTHORIZATION'] != 'Bearer ' . SECRET) {
       http_response_code(401);
       echo "Unauthorized.";

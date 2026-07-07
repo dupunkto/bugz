@@ -34,6 +34,7 @@ function createProject($namespace, $project_name, $description = null) {
     'INSERT INTO projects (namespace, project_name, description) VALUES (?, ?, ?)',
     [$namespace, $project_name, $description]
   ) or die("Failed to create project.");
+
   return getProject($namespace, $project_name);
 }
 
@@ -191,7 +192,7 @@ function listMilestones($project_id, $upcoming = false) {
   return \store\all($sql, [$project_id]) ?: [];
 }
 
-// Hook
+// API
 
 function parseRefs($message) {
   $refs = [];
