@@ -1,16 +1,10 @@
 #!/usr/bin/env bash
 
+use php
+
 PORT=4000
 ENTRYPOINT=dev.php
 STORE=data.db
-
-# Configure the PHP server to start two concurrent threads.
-export PHP_CLI_SERVER_WORKERS=2
-
-setup() {
-  required composer
-  composer install
-}
 
 serve() {
   php -S 0.0.0.0:$PORT $ENTRYPOINT
